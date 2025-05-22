@@ -24,6 +24,6 @@ func (store *Postgress) NewStore() error {
 
 }
 
-type StoreOperation interface{
-	NewStore()error
+type StoreOperation interface {
+	NewStore() error
 }
