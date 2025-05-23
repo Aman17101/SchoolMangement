@@ -6,6 +6,7 @@ import (
 	"github.com/Aman17101/SchoolMangement/model"
 	"github.com/Aman17101/SchoolMangement/store"
 	"github.com/Aman17101/SchoolMangement/util"
+	"github.com/gin-gonic/gin"
 )
 
 type Server struct {
@@ -34,4 +35,5 @@ func (s *Server) NewServer(pgstore store.Postgress) {
 
 type ServerOperations interface {
 	NewServer(pgstore store.Postgress)
+	CreateUser(ctx *gin.Context)
 }
