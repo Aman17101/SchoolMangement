@@ -6,6 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+// @title Managment
+// @version 1.0
+// @description API for managing School operations
+// @host localhost:8080
+// @BasePath /
+// @schemes http https
 func main() {
 
 	api := api.ApiRouts{}
