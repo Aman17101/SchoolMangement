@@ -18,7 +18,7 @@ func init() {
 	
 	Logger.SetFormatter(&logrus.TextFormatter{
 		ForceColors: true,                          //add for highlighting
-		 TimestampFormat: "2006-01-02 15:04:05", // Go's reference time
+		 TimestampFormat: `json:"created_at"`, // Go's reference time
     FullTimestamp:   true,                               
 	})
 

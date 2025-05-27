@@ -26,4 +26,6 @@ var (
 	NewServer = "newServer"
 	NewStore  = "newStore"
 	CreateUser ="create-user"
+	GetUsers ="get-users"
+	GetUser ="get-user"
 )

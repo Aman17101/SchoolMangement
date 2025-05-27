@@ -5,6 +5,7 @@ import (
 
 	"github.com/Aman17101/SchoolMangement/model"
 	"github.com/Aman17101/SchoolMangement/util"
+	"github.com/google/uuid"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -18,20 +19,20 @@ func (store *Postgress) NewStore() error {
 	util.Log(model.LogLevelInfo, model.StorePackage, model.NewStore, "creating new store", nil)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		util.Log(model.LogLevelError, model.StorePackage, model.NewStore," err while creating new store",err)
+		util.Log(model.LogLevelError, model.StorePackage, model.NewStore, " err while creating new store", err)
 		return err
 	} else {
 		store.DB = db
 	}
-	err =db.AutoMigrate(
+	err = db.AutoMigrate(
 		model.User{},
 	)
 
-		if err != nil {
+	if err != nil {
 		util.Log(model.LogLevelError, model.StorePackage, model.NewStore, "err while running automigration", err)
 		return err
-	} 
-	
+	}
+
 	fmt.Printf("db =%v\n", db)
 	return nil
 
@@ -39,5 +40,7 @@ func (store *Postgress) NewStore() error {
 
 type StoreOperation interface {
 	NewStore() error
-	CreateUser (use *model.User)error
+	CreateUser(use *model.User) error
+	GetUsers() ([]model.User, error)
+	GetUser(uuid.UUID) (model.User, error)
 }

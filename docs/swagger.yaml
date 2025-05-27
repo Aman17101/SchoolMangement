@@ -1,0 +1,110 @@
+basePath: /
+definitions:
+  model.User:
+    properties:
+      active:
+        example: true
+        type: boolean
+      created_at:
+        type: string
+      created_by:
+        example: aman4
+        type: string
+      deleted_at:
+        type: string
+      deleted_by:
+        type: string
+      email:
+        example: aman@1
+        type: string
+      id:
+        type: string
+      password:
+        example: password13
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    required:
+    - created_by
+    - email
+    - password
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for managing School operations
+  title: Managment
+  version: "1.0"
+paths:
+  /user/{id}:
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a user by ID
+      tags:
+      - users
+  /user/all:
+    get:
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of results per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all users
+      tags:
+      - users
+  /user/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: Create a user
+      tags:
+      - users
+schemes:
+- http
+- https
+swagger: "2.0"
