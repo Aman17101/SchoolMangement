@@ -15,9 +15,9 @@ type Postgress struct {
 }
 
 func (store *Postgress) NewStore() error {
-	dsn := "host=localhost user=aman password=aman123 dbname=management port=5432 sslmode=disable"
+	
 	util.Log(model.LogLevelInfo, model.StorePackage, model.NewStore, "creating new store", nil)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(model.DNS), &gorm.Config{})
 	if err != nil {
 		util.Log(model.LogLevelError, model.StorePackage, model.NewStore, " err while creating new store", err)
 		return err
@@ -43,4 +43,7 @@ type StoreOperation interface {
 	CreateUser(use *model.User) error
 	GetUsers() ([]model.User, error)
 	GetUser(uuid.UUID) (model.User, error)
+	SingIn(userSignIn model.UserSignIn) (*model.User, error)
+	 SignUp(user *model.User) error
+	
 }

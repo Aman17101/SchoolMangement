@@ -87,6 +87,81 @@
                 }
             }
         },
+        "/user/signin": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "SighIn user",
+                "parameters": [
+                    {
+                        "description": "User object",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserSignIn"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful SignIn",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/signup": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "SignUp a user",
+                "parameters": [
+                    {
+                        "description": "User object",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful SignUp",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/user/{id}": {
             "get": {
                 "security": [
@@ -122,24 +197,43 @@
         }
     },
     "definitions": {
+        "model.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
         "model.User": {
             "type": "object",
             "required": [
+                "city",
                 "created_by",
+                "district",
                 "email",
-                "password"
+                "first_name",
+                "last_name",
+                "middle_name",
+                "password",
+                "pincode",
+                "state"
             ],
             "properties": {
                 "active": {
                     "type": "boolean",
                     "example": true
                 },
+                "city": {
+                    "type": "string",
+                    "example": "Metropolis"
+                },
                 "created_at": {
                     "type": "string"
                 },
                 "created_by": {
                     "type": "string",
-                    "example": "aman4"
+                    "example": "aman"
                 },
                 "deleted_at": {
                     "type": "string"
@@ -147,24 +241,81 @@
                 "deleted_by": {
                     "type": "string"
                 },
+                "district": {
+                    "type": "string",
+                    "example": "Central"
+                },
                 "email": {
                     "type": "string",
                     "example": "aman@1"
                 },
+                "first_name": {
+                    "type": "string",
+                    "example": "John"
+                },
                 "id": {
                     "type": "string"
                 },
+                "lane": {
+                    "type": "string",
+                    "example": "1234 Elm St"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Smith"
+                },
+                "middle_name": {
+                    "type": "string",
+                    "example": "Doe"
+                },
                 "password": {
                     "type": "string",
-                    "example": "password13"
+                    "example": "password"
+                },
+                "pincode": {
+                    "type": "integer",
+                    "example": 123456
+                },
+                "state": {
+                    "type": "string",
+                    "example": "NY"
+                },
+                "type": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"
                 },
                 "updated_by": {
                     "type": "string"
+                },
+                "village": {
+                    "type": "string",
+                    "example": "Springfield"
                 }
             }
+        },
+        "model.UserSignIn": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "X-Token",
+            "in": "header"
         }
     }
 }

@@ -38,4 +38,6 @@ type ServerOperations interface {
 	CreateUser(ctx *gin.Context)
 	GetUsers(ctx *gin.Context)
 	GetUser(ctx *gin.Context)
+	SignUp(c *gin.Context)
+	SignIn(c *gin.Context)
 }
