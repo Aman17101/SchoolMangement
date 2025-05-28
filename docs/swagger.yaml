@@ -1,33 +1,84 @@
 basePath: /
 definitions:
+  model.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
   model.User:
     properties:
       active:
         example: true
         type: boolean
+      city:
+        example: Metropolis
+        type: string
       created_at:
         type: string
       created_by:
-        example: aman4
+        example: aman
         type: string
       deleted_at:
         type: string
       deleted_by:
         type: string
+      district:
+        example: Central
+        type: string
       email:
         example: aman@1
         type: string
+      first_name:
+        example: John
+        type: string
       id:
         type: string
+      lane:
+        example: 1234 Elm St
+        type: string
+      last_name:
+        example: Smith
+        type: string
+      middle_name:
+        example: Doe
+        type: string
       password:
-        example: password13
+        example: password
+        type: string
+      pincode:
+        example: 123456
+        type: integer
+      state:
+        example: NY
+        type: string
+      type:
         type: string
       updated_at:
         type: string
       updated_by:
         type: string
+      village:
+        example: Springfield
+        type: string
     required:
+    - city
     - created_by
+    - district
+    - email
+    - first_name
+    - last_name
+    - middle_name
+    - password
+    - pincode
+    - state
+    type: object
+  model.UserSignIn:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
     - email
     - password
     type: object
@@ -104,7 +155,60 @@ paths:
       summary: Create a user
       tags:
       - users
+  /user/signin:
+    post:
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserSignIn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful SignIn
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: SighIn user
+      tags:
+      - users
+  /user/signup:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful SignUp
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: SignUp a user
+      tags:
+      - users
 schemes:
 - http
 - https
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-Token
+    type: apiKey
 swagger: "2.0"

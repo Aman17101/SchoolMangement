@@ -13,6 +13,9 @@ import (
 // @host localhost:8080
 // @BasePath /
 // @schemes http https
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name X-Token
 func main() {
 
 	api := api.ApiRouts{}

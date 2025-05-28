@@ -1,19 +1,24 @@
 package api
 
+
 import (
-	"github.com/Aman17101/SchoolMangement/model"
-	"github.com/Aman17101/SchoolMangement/util"
 	"github.com/gin-gonic/gin"
+"github.com/Aman17101/SchoolMangement/model"
+	"github.com/Aman17101/SchoolMangement/util"
 )
 
 func (api ApiRouts) UserRouts(routes *gin.Engine) {
 	// Define routes
-	group := routes.Group("/user")
+	group := routes.Group("user")
 	{
-		group.POST("/create", api.CreateUser)
-		group.GET("/all", api.GetUsers)
-		group.GET("/:id", api.GetUser)
+		group.POST("/create", api.AuthMiddlewareComplete(), api.CreateUser)
+		group.GET("/:id", api.AuthMiddlewareComplete(), api.GetUser)
+		group.GET("/all", api.AuthMiddlewareComplete(), api.GetUsers)
+		group.POST("/signup", api.SignUp)
+		group.POST("/signin", api.SignIn)
+	
 	}
+
 }
 
 // Handler to create a user
@@ -25,8 +30,23 @@ func (api ApiRouts) UserRouts(routes *gin.Engine) {
 // @param user body model.User true "User object"
 // @success 201 {object} model.User
 func (api ApiRouts) CreateUser(ctx *gin.Context) {
-	util.Log(model.LogLevelInfo, model.ApiPackage, model.CreateUser, " creating new user", nil)
+
+	util.Log(model.LogLevelInfo, model.ApiPackage, model.CreateUser, "creating new user", nil)
 	api.Server.CreateUser(ctx)
+}
+
+// Handler to get a user by ID
+// @router /user/{id} [get]
+// @summary Get a user by ID
+// @tags users
+// @produce json
+// @param id path string true "User ID"
+// @success 200 {object} model.User
+// @Security ApiKeyAuth
+func (api ApiRouts) GetUser(ctx *gin.Context) {
+
+	util.Log(model.LogLevelInfo, model.ApiPackage, model.GetUser, "fetching  user", nil)
+	api.Server.GetUser(ctx)
 }
 
 // Handler to get all users
@@ -39,20 +59,38 @@ func (api ApiRouts) CreateUser(ctx *gin.Context) {
 // @success 200 {array} model.User
 // @Security ApiKeyAuth
 func (api ApiRouts) GetUsers(ctx *gin.Context) {
-	util.Log(model.LogLevelInfo, model.ApiPackage, model.GetUsers, " fetching users", nil)
-	api.Server.GetUsers(ctx)
 
+	util.Log(model.LogLevelInfo, model.ApiPackage, model.GetUsers, "fetching users", nil)
+	api.Server.GetUsers(ctx)
 }
 
-// Handler to get a user by ID
-// @router /user/{id} [get]
-// @summary Get a user by ID
+
+
+
+
+// Handler to SignUp a user
+// @router /user/signup [post]
+// @summary SignUp a user
+// @tags users
+// @accept json
+// @produce json
+// @param user body model.User true "User object"
+// @Success 200 {string} string "Successful SignUp"
+// @failure 400 {object} model.ErrorResponse
+func (api ApiRouts) SignUp(c *gin.Context) {
+	api.Server.SignUp(c)
+}
+
+// Handler to signIn a user by email and password
+// @router /user/signin [post]
+// @summary SighIn user
 // @tags users
 // @produce json
-// @param id path string true "User ID"
-// @success 200 {object} model.User
-// @Security ApiKeyAuth
-func (api ApiRouts) GetUser(ctx *gin.Context) {
-	util.Log(model.LogLevelInfo, model.ApiPackage, model.GetUser, " fetching user", nil)
-	api.Server.GetUser(ctx)
+// @param user body model.UserSignIn true "User object"
+// @Success 200 {string} string "Successful SignIn"
+// @failure 404 {object} model.ErrorResponse
+func (api ApiRouts) SignIn(c *gin.Context) {
+	api.Server.SignIn(c)
 }
+
+	
