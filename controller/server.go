@@ -42,9 +42,23 @@ type ServerOperations interface {
 	GetUser(ctx *gin.Context)
 	SignUp(c *gin.Context)
 	SignIn(c *gin.Context)
+	GetUserByFilter(ctx *gin.Context)
+	UpdateUser(c *gin.Context) error
+	DeleteUser(c *gin.Context) error
 
 	//School controller
 	CreateSchool(ctx *gin.Context)
 	GetSchools(ctx *gin.Context)
 	GetSchool(ctx *gin.Context)
+	GetSchoolByFilter(ctx *gin.Context)
+	UpdateSchool(c *gin.Context) error
+	DeleteSchool(c *gin.Context) error
+
+	//class controller
+	CreateClass(ctx *gin.Context)
+	GetClasss(ctx *gin.Context)
+	GetClass(ctx *gin.Context)
+	GetClassByFilter(ctx *gin.Context)
+	UpdateClass(c *gin.Context) error
+	DeleteClass(c *gin.Context) error
 }

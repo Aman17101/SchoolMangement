@@ -30,22 +30,6 @@ type User struct {
 	Type       string    `json:"type" gorm:"not null"`
 }
 
-type Name struct {
-	FirstName  string `json:"firstName"`
-	MiddleName string `json:"middleName"`
-	LastName   string `json:"lastName"`
-}
-
-type Address struct {
-	Lane     string `json:"lane"`
-	Village  string `json:"village"`
-	City     string `json:"city"`
-	District string `json:"district"`
-	Pincode  int    `json:"pincode"`
-	State    string `json:"state"`
-}
-
-
 // UserSignIn struct
 type UserSignIn struct {
 	Email    string `json:"email" binding:"required"`
