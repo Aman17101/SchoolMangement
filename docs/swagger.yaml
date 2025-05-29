@@ -5,6 +5,70 @@ definitions:
       error:
         type: string
     type: object
+  model.School:
+    properties:
+      active:
+        example: true
+        type: boolean
+      admin_id:
+        type: string
+      board_type:
+        type: string
+      city:
+        example: Metropolis
+        type: string
+      class_up_to:
+        type: integer
+      created_at:
+        type: string
+      created_by:
+        example: aman
+        type: string
+      deleted_at:
+        type: string
+      deleted_by:
+        type: string
+      director_id:
+        example: e9b2a0e3-e86c-4386-8162-ae441ffa28c8
+        type: string
+      district:
+        example: Central
+        type: string
+      domain:
+        example: slrtce
+        type: string
+      hostel_id:
+        type: string
+      id:
+        type: string
+      lane:
+        example: 1234 Elm St
+        type: string
+      pincode:
+        example: 123456
+        type: integer
+      principle_id:
+        type: string
+      state:
+        example: NY
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      village:
+        example: Springfield
+        type: string
+    required:
+    - active
+    - city
+    - created_by
+    - director_id
+    - district
+    - domain
+    - pincode
+    - state
+    type: object
   model.User:
     properties:
       active:
@@ -89,6 +153,74 @@ info:
   title: Managment
   version: "1.0"
 paths:
+  /school/{id}:
+    get:
+      parameters:
+      - description: School ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.School'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a school by ID
+      tags:
+      - schools
+  /school/all:
+    get:
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of results per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.School'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all schools
+      tags:
+      - schools
+  /school/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: School object
+        in: body
+        name: school
+        required: true
+        schema:
+          $ref: '#/definitions/model.School'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.School'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a school
+      tags:
+      - schools
   /user/{id}:
     get:
       parameters:

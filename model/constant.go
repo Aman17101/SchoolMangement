@@ -1,5 +1,7 @@
 package model
+
 import "time"
+
 var (
 	LogLevel        = "log-level"
 	LogLevelInfo    = "info"
@@ -25,25 +27,30 @@ var (
 var (
 	NewServer  = "newServer"
 	NewStore   = "newStore"
-	CreateUser = "create-user"
-	GetUsers   = "get-users"
-	GetUser    = "get-user"
+	CreateUser = "create-User"
+	GetUsers   = "get-Users"
+	GetUser    = "get-User"
 	SignUP     = "sign-up"
 	SignIn     = "sign-in"
+
+	CreateSchool = "create-schools"
+	GetSchools   = "get-schools"
+	GetSchool    = "get-school"
+
 	AuthMiddlewareComplete = "AuthMiddlewareComplete"
 )
+
 // General
 var (
 	Value    = "value"
 	Email    = "email"
 	Password = "password"
-	UserID   = "userID"
+	UserID   = "UserID"
 	Expire   = "exp"
 
 	Authorization = "X-Token"
 
 	DNS = "host=localhost user=aman password=aman123 dbname=management port=5432 sslmode=disable"
-
 )
 
 var (
@@ -52,13 +59,10 @@ var (
 
 var SecretKey = []byte("managment-secreat-key")
 
-// user type
+// schools type
 var (
-	
-	SuperAdminUser      = "superAdmin"
-	AdminUser           = "Admin"
-	NormalUser          = "User"
-	UserTypes           = []string{ "superAdmin", "Admin", "User"}
+	SuperAdminUser = "superAdmin"
+	AdminUser      = "Admin"
+	NormalUser     = "user"
+	UserTypes         = []string{"superAdmin", "Admin", "user"}
 )
-	
-

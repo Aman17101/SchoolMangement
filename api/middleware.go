@@ -3,10 +3,10 @@ package api
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
 	"github.com/Aman17101/SchoolMangement/model"
 	"github.com/Aman17101/SchoolMangement/util"
+	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
