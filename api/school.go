@@ -13,7 +13,9 @@ func (api ApiRouts) SchoolRouts(routes *gin.Engine) {
 		group.POST("/create", api.AuthMiddlewareComplete(), api.CreateSchool)
 		group.GET("/:id", api.AuthMiddlewareComplete(), api.GetSchool)
 		group.GET("/all", api.AuthMiddlewareComplete(), api.GetSchools)
-	
+		group.GET("/filter", api.GetSchoolsByFilter)
+		group.PUT("/update/:id", api.AuthMiddlewareComplete(), api.UpdateSchool)
+		group.DELETE("/delete/:id", api.AuthMiddlewareComplete(), api.DeleteSchool)
 
 	}
 
@@ -63,3 +65,56 @@ func (api ApiRouts) GetSchools(ctx *gin.Context) {
 	api.Server.GetSchools(ctx)
 }
 
+// Handler to get all schools based on filter
+// @router /school/filter [get]
+// @summary Get all schools based on given filters
+// @tags schools
+// @produce json
+// @param domain query string false "email"
+// @param id query string false "id"
+// @param principle_id query string false "principle_id"
+// @param active query bool false "active"
+// @param created_by query string false "created_by"
+// @param updated_by query string false "updated_by"
+// @param admin_id query string false "admin_id"
+// @param director_id query string false "director_id"
+// @param hostel_id query string false "hostel_id"
+// @param lane query string false "lane"
+// @param village query string false "village"
+// @param city query string false "city"
+// @param district query string false "district"
+// @param pincode query int false "pincode"
+// @param state query string false "state"
+// @param start_date query string false "start date"
+// @param end_date query string false "end date"
+// @param page query int false "Page number (default: 1)"
+// @param limit query int false "Number of results per page (default: 10)"
+// @success 200 {array} model.School
+// @Security ApiKeyAuth
+func (api ApiRouts) GetSchoolsByFilter(c *gin.Context) {
+	api.Server.GetSchoolByFilter(c)
+}
+
+// Handler to update a school
+// @router /school/update/{id} [put]
+// @summary Update a school
+// @tags schools
+// @accept json
+// @produce json
+// @param id path string true "School ID"
+// @param school body model.School true "School object"
+// @success 200 {object} model.School
+// @Security ApiKeyAuth
+func (api ApiRouts) UpdateSchool(c *gin.Context) {
+	api.Server.UpdateSchool(c)
+}
+
+// Handler to delete a school
+// @router  /school/delete/{id} [delete]
+// @summary Delete a school
+// @tags schools
+// @param id path string true "School ID"
+// @Security ApiKeyAuth
+func (api ApiRouts) DeleteSchool(c *gin.Context) {
+	api.Server.DeleteSchool(c)
+}

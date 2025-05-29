@@ -1,5 +1,49 @@
 basePath: /
 definitions:
+  model.Class:
+    properties:
+      active:
+        example: true
+        type: boolean
+      class_name:
+        type: string
+      class_tracher_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        example: vishal
+        type: string
+      deleted_at:
+        type: string
+      deleted_by:
+        type: string
+      floor_number:
+        type: integer
+      id:
+        type: string
+      number_of_periods:
+        type: integer
+      number_of_student:
+        type: integer
+      room_id:
+        type: string
+      school_id:
+        type: string
+      subjects_id:
+        type: string
+      trachers_id:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    required:
+    - active
+    - created_by
+    - number_of_student
+    - school_id
+    type: object
   model.ErrorResponse:
     properties:
       error:
@@ -153,6 +197,201 @@ info:
   title: Managment
   version: "1.0"
 paths:
+  /class/{id}:
+    get:
+      parameters:
+      - description: Class ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Class'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a class by ID
+      tags:
+      - classs
+  /class/all:
+    get:
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of results per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Class'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all classs
+      tags:
+      - classs
+  /class/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Class object
+        in: body
+        name: class
+        required: true
+        schema:
+          $ref: '#/definitions/model.Class'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Class'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a class
+      tags:
+      - classs
+  /class/delete/{id}:
+    delete:
+      parameters:
+      - description: Class ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a class
+      tags:
+      - classs
+  /class/filter:
+    get:
+      parameters:
+      - description: id
+        in: query
+        name: id
+        type: string
+      - description: school_id
+        in: query
+        name: school_id
+        type: string
+      - description: room_id
+        in: query
+        name: room_id
+        type: string
+      - description: number_of_student
+        in: query
+        name: number_of_student
+        type: integer
+      - description: number_of_periods
+        in: query
+        name: number_of_periods
+        type: integer
+      - description: active
+        in: query
+        name: active
+        type: boolean
+      - description: created_by
+        in: query
+        name: created_by
+        type: string
+      - description: updated_by
+        in: query
+        name: updated_by
+        type: string
+      - description: class_tracher_id
+        in: query
+        name: class_tracher_id
+        type: string
+      - description: trachers_id
+        in: query
+        name: trachers_id
+        type: string
+      - description: subjects_id
+        in: query
+        name: subjects_id
+        type: string
+      - description: floor_number
+        in: query
+        name: floor_number
+        type: string
+      - description: class_name
+        in: query
+        name: class_name
+        type: string
+      - description: start date
+        in: query
+        name: start_date
+        type: string
+      - description: end date
+        in: query
+        name: end_date
+        type: string
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of results per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Class'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all classs based on given filters
+      tags:
+      - classs
+  /class/update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Class ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Class object
+        in: body
+        name: class
+        required: true
+        schema:
+          $ref: '#/definitions/model.Class'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Class'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a class
+      tags:
+      - classs
   /school/{id}:
     get:
       parameters:
@@ -221,6 +460,141 @@ paths:
       summary: Create a school
       tags:
       - schools
+  /school/delete/{id}:
+    delete:
+      parameters:
+      - description: School ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a school
+      tags:
+      - schools
+  /school/filter:
+    get:
+      parameters:
+      - description: email
+        in: query
+        name: domain
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: string
+      - description: principle_id
+        in: query
+        name: principle_id
+        type: string
+      - description: active
+        in: query
+        name: active
+        type: boolean
+      - description: created_by
+        in: query
+        name: created_by
+        type: string
+      - description: updated_by
+        in: query
+        name: updated_by
+        type: string
+      - description: admin_id
+        in: query
+        name: admin_id
+        type: string
+      - description: director_id
+        in: query
+        name: director_id
+        type: string
+      - description: hostel_id
+        in: query
+        name: hostel_id
+        type: string
+      - description: lane
+        in: query
+        name: lane
+        type: string
+      - description: village
+        in: query
+        name: village
+        type: string
+      - description: city
+        in: query
+        name: city
+        type: string
+      - description: district
+        in: query
+        name: district
+        type: string
+      - description: pincode
+        in: query
+        name: pincode
+        type: integer
+      - description: state
+        in: query
+        name: state
+        type: string
+      - description: start date
+        in: query
+        name: start_date
+        type: string
+      - description: end date
+        in: query
+        name: end_date
+        type: string
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of results per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.School'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all schools based on given filters
+      tags:
+      - schools
+  /school/update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: School ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: School object
+        in: body
+        name: school
+        required: true
+        schema:
+          $ref: '#/definitions/model.School'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.School'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a school
+      tags:
+      - schools
   /user/{id}:
     get:
       parameters:
@@ -287,6 +661,113 @@ paths:
       summary: Create a user
       tags:
       - users
+  /user/delete/{id}:
+    delete:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a user
+      tags:
+      - users
+  /user/filter:
+    get:
+      parameters:
+      - description: email
+        in: query
+        name: email
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: string
+      - description: password
+        in: query
+        name: password
+        type: string
+      - description: active
+        in: query
+        name: active
+        type: boolean
+      - description: created_by
+        in: query
+        name: created_by
+        type: string
+      - description: updated_by
+        in: query
+        name: updated_by
+        type: string
+      - description: first_name
+        in: query
+        name: first_name
+        type: string
+      - description: middle_name
+        in: query
+        name: middle_name
+        type: string
+      - description: last_name
+        in: query
+        name: last_name
+        type: string
+      - description: lane
+        in: query
+        name: lane
+        type: string
+      - description: village
+        in: query
+        name: village
+        type: string
+      - description: city
+        in: query
+        name: city
+        type: string
+      - description: district
+        in: query
+        name: district
+        type: string
+      - description: pincode
+        in: query
+        name: pincode
+        type: integer
+      - description: state
+        in: query
+        name: state
+        type: string
+      - description: start date
+        in: query
+        name: start_date
+        type: string
+      - description: end date
+        in: query
+        name: end_date
+        type: string
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of results per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.User'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get all users based on given filters
+      tags:
+      - users
   /user/signin:
     post:
       parameters:
@@ -333,6 +814,34 @@ paths:
           schema:
             $ref: '#/definitions/model.ErrorResponse'
       summary: SignUp a user
+      tags:
+      - users
+  /user/update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a user
       tags:
       - users
 schemes:

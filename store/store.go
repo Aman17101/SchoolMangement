@@ -15,7 +15,7 @@ type Postgress struct {
 }
 
 func (store *Postgress) NewStore() error {
-	
+
 	util.Log(model.LogLevelInfo, model.StorePackage, model.NewStore, "creating new store", nil)
 	db, err := gorm.Open(postgres.Open(model.DNS), &gorm.Config{})
 	if err != nil {
@@ -27,6 +27,7 @@ func (store *Postgress) NewStore() error {
 	err = db.AutoMigrate(
 		model.User{},
 		model.School{},
+		model.Class{},
 	)
 
 	if err != nil {
@@ -45,11 +46,22 @@ type StoreOperation interface {
 	GetUsers() ([]model.User, error)
 	GetUser(uuid.UUID) (model.User, error)
 	SingIn(userSignIn model.UserSignIn) (*model.User, error)
-	 SignUp(user *model.User) error
+	SignUp(user *model.User) error
+	GetUserByFilter(filter map[string]interface{}) ([]model.User, error)
+	UpdateUser(user *model.User) error
+	DeleteUser(userID string) error
 
-	 CreateSchool(school *model.School) error
+	CreateSchool(school *model.School) error
 	GetSchools() ([]model.School, error)
 	GetSchool(uuid.UUID) (model.School, error)
-	
-	
+	GetSchoolByFilter(filter map[string]interface{}) ([]model.School, error)
+	UpdateSchool(school *model.School) error
+	DeleteSchool(schoolID string) error
+
+	CreateClass(class *model.Class) error
+	GetClasss() ([]model.Class, error)
+	GetClass(uuid.UUID) (model.Class, error)
+	GetClassByFilter(filter map[string]interface{}) ([]model.Class, error)
+	UpdateClass(class *model.Class) error
+	DeleteClass(classID string) error
 }

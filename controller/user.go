@@ -1,13 +1,14 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/Aman17101/SchoolMangement/model"
-	"github.com/golang-jwt/jwt"
 	"github.com/Aman17101/SchoolMangement/util"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
 )
 
@@ -50,7 +51,6 @@ func (server Server) GetUser(ctx *gin.Context) {
 	//id := ctx.Param("id")
 	util.Log(model.LogLevelInfo, model.ControllerPackage, model.GetUsers, "fetching all user ", nil)
 
-	
 	// Call DB layer
 	user, err := server.PostgressDb.GetUsers()
 	if err != nil {
@@ -60,6 +60,75 @@ func (server Server) GetUser(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, user)
+}
+
+func (server Server) GetUserByFilter(ctx *gin.Context) {
+
+	util.Log(model.LogLevelInfo, model.ControllerPackage, model.GetUserByFilter, "fetching user by filter", nil)
+	queryParams := ctx.Request.URL.Query()
+
+	filter := util.ConvertQueryParams(queryParams)
+
+	user, err := server.PostgressDb.GetUserByFilter(filter)
+	if err != nil {
+		util.Log(model.LogLevelError, model.ControllerPackage, model.GetUserByFilter, "error while fetching record ", err)
+		ctx.JSON(http.StatusInternalServerError, err)
+		return
+	}
+	ctx.JSON(http.StatusCreated, user)
+
+}
+
+func (server *Server) UpdateUser(c *gin.Context) error {
+
+	var user model.User
+	//Unmarshal
+	util.Log(model.LogLevelInfo, model.ControllerPackage, model.UpdateUser,
+		"unmarshaling user data", nil)
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		util.Log(model.LogLevelError, model.ControllerPackage, model.UpdateUser,
+			"error while unmarshaling payload", err)
+		return fmt.Errorf("")
+	}
+	//validation is to be done here
+	//DB call
+	user.UpdatedAt = time.Now().UTC()
+	err = server.PostgressDb.UpdateUser(&user)
+	if err != nil {
+		util.Log(model.LogLevelError, model.ControllerPackage, model.UpdateUser,
+			"error while updating record from pgress", err)
+		return fmt.Errorf("")
+	}
+	util.Log(model.LogLevelInfo, model.ControllerPackage, model.GetUsers,
+		"successfully updated user record and setting response", user)
+	c.JSON(http.StatusOK, user)
+	return nil
+
+}
+
+func (server *Server) DeleteUser(c *gin.Context) error {
+
+	//validation is to be done here
+	util.Log(model.LogLevelInfo, model.ControllerPackage, model.DeleteUser,
+		"reading user id", nil)
+	id := c.Param("id")
+	if id == "" {
+		util.Log(model.LogLevelError, model.ControllerPackage, model.DeleteUser,
+			"missing user id", nil)
+		return fmt.Errorf("")
+	}
+	//DB call
+	err := server.PostgressDb.DeleteUser(id)
+	if err != nil {
+		util.Log(model.LogLevelError, model.ControllerPackage, model.DeleteUser,
+			"error while deleting user record from pgress", err)
+		return fmt.Errorf("")
+	}
+	util.Log(model.LogLevelInfo, model.ControllerPackage, model.DeleteUser,
+		"successfully deleted user record ", nil)
+	return nil
+
 }
 
 // Signup API handler
@@ -100,8 +169,6 @@ func (server *Server) SignUp(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
-
-
 
 // SignIn API handler
 func (server *Server) SignIn(c *gin.Context) {
