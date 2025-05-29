@@ -26,6 +26,7 @@ func (store *Postgress) NewStore() error {
 	}
 	err = db.AutoMigrate(
 		model.User{},
+		model.School{},
 	)
 
 	if err != nil {
@@ -40,10 +41,15 @@ func (store *Postgress) NewStore() error {
 
 type StoreOperation interface {
 	NewStore() error
-	CreateUser(use *model.User) error
+	CreateUser(user *model.User) error
 	GetUsers() ([]model.User, error)
 	GetUser(uuid.UUID) (model.User, error)
 	SingIn(userSignIn model.UserSignIn) (*model.User, error)
 	 SignUp(user *model.User) error
+
+	 CreateSchool(school *model.School) error
+	GetSchools() ([]model.School, error)
+	GetSchool(uuid.UUID) (model.School, error)
+	
 	
 }

@@ -15,6 +15,118 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/school/all": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schools"
+                ],
+                "summary": "Get all schools",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of results per page (default: 10)",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.School"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/school/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schools"
+                ],
+                "summary": "Create a school",
+                "parameters": [
+                    {
+                        "description": "School object",
+                        "name": "school",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.School"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.School"
+                        }
+                    }
+                }
+            }
+        },
+        "/school/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "schools"
+                ],
+                "summary": "Get a school by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "School ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.School"
+                        }
+                    }
+                }
+            }
+        },
         "/user/all": {
             "get": {
                 "security": [
@@ -204,6 +316,94 @@ const docTemplate = `{
             "properties": {
                 "error": {
                     "type": "string"
+                }
+            }
+        },
+        "model.School": {
+            "type": "object",
+            "required": [
+                "active",
+                "city",
+                "created_by",
+                "director_id",
+                "district",
+                "domain",
+                "pincode",
+                "state"
+            ],
+            "properties": {
+                "active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "admin_id": {
+                    "type": "string"
+                },
+                "board_type": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string",
+                    "example": "Metropolis"
+                },
+                "class_up_to": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string",
+                    "example": "aman"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "deleted_by": {
+                    "type": "string"
+                },
+                "director_id": {
+                    "type": "string",
+                    "example": "e9b2a0e3-e86c-4386-8162-ae441ffa28c8"
+                },
+                "district": {
+                    "type": "string",
+                    "example": "Central"
+                },
+                "domain": {
+                    "type": "string",
+                    "example": "slrtce"
+                },
+                "hostel_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "lane": {
+                    "type": "string",
+                    "example": "1234 Elm St"
+                },
+                "pincode": {
+                    "type": "integer",
+                    "example": 123456
+                },
+                "principle_id": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string",
+                    "example": "NY"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "village": {
+                    "type": "string",
+                    "example": "Springfield"
                 }
             }
         },
