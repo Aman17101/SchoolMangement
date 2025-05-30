@@ -29,4 +29,28 @@ func (api *ApiRouts) StartApp(routes *gin.Engine, server controller.Server) {
 
 	//class routs
 	api.ClassRouts(routes)
+
+	// teacher routs
+		api.TeacherRouts(routes)
+
+//room routs
+		api.RoomRouts(routes)
+
+
+		// Book routs
+		api.BookRouts(routes)
+
+
+		// Author routs
+		api.AuthorRouts(routes)
+
+
+		// publisher routs
+		api.PublisherRouts(routes)
+
+
+		// lab routs
+		api.LabRouts(routes)
+
+
 }

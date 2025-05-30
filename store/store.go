@@ -28,6 +28,12 @@ func (store *Postgress) NewStore() error {
 		model.User{},
 		model.School{},
 		model.Class{},
+		model.Room{},
+		model.Book{},
+		model.Teacher{},
+		model.Author{},
+		model.Publisher{},
+		model.Lab{},
 	)
 
 	if err != nil {
@@ -64,4 +70,47 @@ type StoreOperation interface {
 	GetClassByFilter(filter map[string]interface{}) ([]model.Class, error)
 	UpdateClass(class *model.Class) error
 	DeleteClass(classID string) error
+
+	CreateTeacher(teacher *model.Teacher) error
+	GetTeachers() ([]model.Teacher, error)
+	GetTeacher(uuid.UUID) (model.Teacher, error)
+	GetTeacherByFilter(filter map[string]interface{}) ([]model.Teacher, error)
+	UpdateTeacher(teacher *model.Teacher) error
+	DeleteTeacher(teacherID string) error
+
+	CreateRoom(room *model.Room) error
+	GetRooms() ([]model.Room, error)
+	GetRoom(uuid.UUID) (model.Room, error)
+	GetRoomByFilter(filter map[string]interface{}) ([]model.Room, error)
+	UpdateRoom(room *model.Room) error
+	DeleteRoom(roomID string) error
+	
+
+	CreateAuthor(author *model.Author) error
+	GetAuthors() ([]model.Author, error)
+	GetAuthor(uuid.UUID) (model.Author, error)
+	GetAuthorByFilter(filter map[string]interface{}) ([]model.Author, error)
+	UpdateAuthor(author *model.Author) error
+	DeleteAuthor(authorID string) error
+
+	CreatePublisher(publisher *model.Publisher) error
+	GetPublishers() ([]model.Publisher, error)
+	GetPublisher(uuid.UUID) (model.Publisher, error)
+	GetPublisherByFilter(filter map[string]interface{}) ([]model.Publisher, error)
+	UpdatePublisher(publisher *model.Publisher) error
+	DeletePublisher(publisherID string) error
+
+	CreateBook(book *model.Book) error
+	GetBooks() ([]model.Book, error)
+	GetBook(uuid.UUID) (model.Book, error)
+	GetBookByFilter(filter map[string]interface{}) ([]model.Book, error)
+	UpdateBook(book *model.Book) error
+	DeleteBook(bookID string) error
+
+	CreateLab(lab *model.Lab) error
+	GetLabs() ([]model.Lab, error)
+	GetLab(uuid.UUID) (model.Lab, error)
+	GetLabByFilter(filter map[string]interface{}) ([]model.Lab, error)
+	UpdateLab(lab *model.Lab) error
+	DeleteLab(labID string) error
 }

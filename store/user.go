@@ -66,8 +66,8 @@ func (store Postgress) GetUserByFilter(filter map[string]interface{}) ([]model.U
 			"filters key", key+" value = "+fmt.Sprintf("%v", value))
 		query = query.Where(fmt.Sprintf("%s = ?", key), value)
 	}
-	setLimitAndPage(filter, query)
-	setDateRangeFilter(filter, query)
+	//setLimitAndPage(filter, query)
+	//setDateRangeFilter(filter, query)
 
 	err := query.Find(&users).Error
 	if err != nil {
